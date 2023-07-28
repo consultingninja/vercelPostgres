@@ -2,6 +2,20 @@ import { createPool } from '@vercel/postgres';
 import {SECRET_POSTGRES_STRING} from '$env/static/private';
 import { redirect } from '@sveltejs/kit';
 
+function getNextAvailableId(rows) {
+  rows.sort((a, b) => a.id - b.id); // Sort the rows array based on id property
+
+  let id = 1;
+  for (let i = 0; i < rows.length; i++) {
+    if (rows[i].id === id) {
+      id++; // If the current id matches the expected id, increment to the next one
+    } else if (rows[i].id > id) {
+      break; // If the current id is greater than the expected id, a gap is found, so break the loop
+    }
+  }
+
+  return id;
+}
 
 
 async function addUser(user) {
@@ -24,13 +38,7 @@ async function addUser(user) {
 
       const {rows} = await pool.sql`SELECT * FROM users`;
       //find an id that hasn't been used yet by grabbing all user ids and either adding one or filling in a previously used id that is now empty
-      let id = 1;
-      for(let i = 0; i < rows.length; i++){
-        if(rows[i].id !== id){
-          break;
-        }
-        id++;
-      } 
+      const id = getNextAvailableId(rows);
 
   
       //insert the user

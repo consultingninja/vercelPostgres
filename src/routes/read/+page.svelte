@@ -30,7 +30,7 @@
         width:100%;    
     }
     .read-content{
-        max-width: 400px;
+        min-width: 400px;
         background-color: rgba(0, 0, 0, 0.4);
         padding:1em;
         border-radius: 5px;
