@@ -24,7 +24,7 @@ async function updateUser(user) {
       });   
   
       //update the user
-      const {result} =await pool.sql`UPDATE users 
+      const result =await pool.sql`UPDATE users 
       SET firstname = ${user.firstname}, lastname = ${user.lastname}, email = ${user.email} WHERE id = ${user.id}`;
 
     return {
