@@ -43,13 +43,14 @@ async function addUser(user) {
   
       //insert the user
 
-      const {result} = await pool.sql`INSERT INTO users VALUES (${id},${user.firstname}, ${user.lastname}, ${user.email}, ${user.password})
+      const result = await pool.sql`INSERT INTO users VALUES (${id},${user.firstname}, ${user.lastname}, ${user.email}, ${user.password})
       ON CONFLICT (email) DO NOTHING;
       `;
+      console.log('result of insert:',result)
   
 
     return {
-      result
+        result
     };
   }
 

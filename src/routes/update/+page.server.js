@@ -21,19 +21,7 @@ async function updateUser(user) {
     console.log('user',user);
     const pool = createPool({
         connectionString: SECRET_POSTGRES_STRING,
-      });
-
-      //grab all used emails to make sure the email is not already in use
-        const {rows} = await pool.sql`SELECT email FROM users`;
-        let emailInUse = false;
-        for(let i = 0; i < rows.length; i++){
-            if(rows[i].email === user.email){
-                emailInUse = true;
-                break;
-            }
-        if(emailInUse) throw new Error('Email already in use');
-        }
-            
+      });   
   
       //update the user
       const {result} =await pool.sql`UPDATE users 
